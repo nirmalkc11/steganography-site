@@ -8,14 +8,17 @@
     <label>Carrier File (P)</label><br>
     <input type="file" name="carrier_file" required><br>
 
-    <label>Secret Message File (M)</label><br>
-    <input type="file" name="message_file" required><br>
+    <label>Secret Message File (M) - optional</label><br>
+    <input type="file" name="message_file"><br>
+
+    <label>Or Type Secret Message - optional</label><br>
+    <textarea name="typed_message" rows="6" cols="60" placeholder="Type your secret message here..."></textarea><br><br>
 
     <label>Start Bit Number (S)</label><br>
     <input type="number" name="s_value" value="8192" required><br>
 
     <label>Periodicity (L)</label><br>
-    <input type="number" name="l_value" value="32" required><br>
+    <input type="number" name="l_value" value="64" required><br>
 
     <label>Mode (C)</label><br>
     <select name="c_value" required>

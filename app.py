@@ -144,8 +144,9 @@ def dashboard():
         return redirect(url_for("login"))
 
     if request.method == "POST":
-        carrier_file = request.files.get("carrier_file")
+                carrier_file = request.files.get("carrier_file")
         message_file = request.files.get("message_file")
+        typed_message = request.form.get("typed_message", "").strip()
 
         s_value = request.form.get("s_value", "").strip()
         l_value = request.form.get("l_value", "").strip()
@@ -155,8 +156,15 @@ def dashboard():
             flash("Please upload a carrier file.")
             return redirect(url_for("dashboard"))
 
-        if not message_file or message_file.filename == "":
-            flash("Please upload a secret message file.")
+        has_uploaded_message = message_file and message_file.filename != ""
+        has_typed_message = typed_message != ""
+
+        if not has_uploaded_message and not has_typed_message:
+            flash("Please either upload a secret message file or type a secret message.")
+            return redirect(url_for("dashboard"))
+
+        if has_uploaded_message and has_typed_message:
+            flash("Please use only one message input: either upload a file or type a message.")
             return redirect(url_for("dashboard"))
 
         if not s_value or not l_value or not c_value:
@@ -178,25 +186,31 @@ def dashboard():
             flash("Carrier file type not allowed.")
             return redirect(url_for("dashboard"))
 
-        if not allowed_file(message_file.filename):
-            flash("Message file type not allowed.")
-            return redirect(url_for("dashboard"))
-
-        carrier_name = secure_filename(carrier_file.filename)
-        message_name = secure_filename(message_file.filename)
-
+                carrier_name = secure_filename(carrier_file.filename)
         unique_prefix = str(int(time.time()))
 
         saved_carrier_name = f"{unique_prefix}_{carrier_name}"
-        saved_message_name = f"{unique_prefix}_{message_name}"
         generated_name = f"stego_{unique_prefix}_{carrier_name}"
 
         carrier_path = UPLOAD_FOLDER / saved_carrier_name
-        message_path = MESSAGE_FOLDER / saved_message_name
         generated_path = GENERATED_FOLDER / generated_name
 
         carrier_file.save(carrier_path)
-        message_file.save(message_path)
+
+        if has_uploaded_message:
+            if not allowed_file(message_file.filename):
+                flash("Message file type not allowed.")
+                return redirect(url_for("dashboard"))
+
+            message_name = secure_filename(message_file.filename)
+            saved_message_name = f"{unique_prefix}_{message_name}"
+            message_path = MESSAGE_FOLDER / saved_message_name
+            message_file.save(message_path)
+
+        else:
+            saved_message_name = f"{unique_prefix}_typed_message.txt"
+            message_path = MESSAGE_FOLDER / saved_message_name
+            message_path.write_text(typed_message, encoding="utf-8")
 
         try:
             embed_message(
