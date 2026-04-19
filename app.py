@@ -144,7 +144,7 @@ def dashboard():
         return redirect(url_for("login"))
 
     if request.method == "POST":
-                carrier_file = request.files.get("carrier_file")
+        carrier_file = request.files.get("carrier_file")
         message_file = request.files.get("message_file")
         typed_message = request.form.get("typed_message", "").strip()
 
