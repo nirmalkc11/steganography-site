@@ -186,7 +186,7 @@ def dashboard():
             flash("Carrier file type not allowed.")
             return redirect(url_for("dashboard"))
 
-                carrier_name = secure_filename(carrier_file.filename)
+        carrier_name = secure_filename(carrier_file.filename)
         unique_prefix = str(int(time.time()))
 
         saved_carrier_name = f"{unique_prefix}_{carrier_name}"
