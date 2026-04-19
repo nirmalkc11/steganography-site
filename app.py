@@ -333,7 +333,8 @@ def extract_view():
 
     return render_template("extract.html", extracted_file=extracted_file)
 
-init_db()
+with app.app_context():
+    init_db()
 
 if __name__ == "__main__":
     app.run(debug=True)
