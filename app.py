@@ -271,6 +271,14 @@ def gallery():
 def generated_file(filename):
     return send_from_directory(GENERATED_FOLDER, filename)
 
+@app.route("/download/<path:filename>")
+def download_file(filename):
+    return send_from_directory(
+        GENERATED_FOLDER,
+        filename,
+        as_attachment=True
+    )
+
 @app.route("/post/<int:post_id>")
 def view_post(post_id):
     conn = get_db()
