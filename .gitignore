@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+env/
+venv/
+
+users.db
+
+uploads/*
+hidden_messages/*
+generated/*
+
+!uploads/.gitkeep
+!hidden_messages/.gitkeep
+!generated/.gitkeep

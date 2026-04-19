@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Post Details</h2>
+
+<div class="post">
+    <p><b>Posted by:</b> {{ post["username"] }}</p>
+
+    <p><b>Generated File:</b>
+        <a href="{{ url_for('generated_file', filename=post['generated_filename']) }}" target="_blank">
+            {{ post["generated_filename"] }}
+        </a>
+    </p>
+
+    <p><b>Parameters:</b></p>
+    <ul>
+        <li>S (Start Bit): {{ post["s_value"] }}</li>
+        <li>L (Periodicity): {{ post["l_value"] }}</li>
+        <li>C (Mode): {{ post["c_value"] }}</li>
+    </ul>
+
+    {% if is_image_file(post["generated_filename"]) %}
+        <h3>Preview:</h3>
+        <img src="{{ url_for('generated_file', filename=post['generated_filename']) }}" 
+             style="max-width:500px;">
+    {% else %}
+        <p>This file is not previewable as an image.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('gallery') }}">← Back to Gallery</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Extract Hidden Message</h2>
+<p>Upload a stego file and enter the same S, L, and C values used during embedding.</p>
+
+<form method="POST" enctype="multipart/form-data">
+    <label>Stego File</label><br>
+    <input type="file" name="stego_file" required><br>
+
+    <label>Start Bit Number (S)</label><br>
+    <input type="number" name="s_value" value="8192" required><br>
+
+    <label>Periodicity (L)</label><br>
+    <input type="number" name="l_value" value="64" required><br>
+
+    <label>Mode (C)</label><br>
+    <select name="c_value" required>
+        <option value="fixed">fixed</option>
+        <option value="alternate">alternate</option>
+        <option value="cycle3">cycle3</option>
+    </select><br>
+
+    <button type="submit">Extract Message</button>
+</form>
+
+{% if extracted_file %}
+    <hr>
+    <h3>Recovered File</h3>
+    <p>
+        <a href="{{ url_for('generated_file', filename=extracted_file) }}" target="_blank">
+            Download {{ extracted_file }}
+        </a>
+    </p>
+{% endif %}
+{% endblock %}

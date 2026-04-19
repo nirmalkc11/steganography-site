@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Dashboard</h2>
+<p>Logged in as: <b>{{ username }}</b></p>
+
+<form method="POST" enctype="multipart/form-data">
+    <label>Carrier File (P)</label><br>
+    <input type="file" name="carrier_file" required><br>
+
+    <label>Secret Message File (M)</label><br>
+    <input type="file" name="message_file" required><br>
+
+    <label>Start Bit Number (S)</label><br>
+    <input type="number" name="s_value" value="8192" required><br>
+
+    <label>Periodicity (L)</label><br>
+    <input type="number" name="l_value" value="32" required><br>
+
+    <label>Mode (C)</label><br>
+    <select name="c_value" required>
+        <option value="fixed">fixed</option>
+        <option value="alternate">alternate</option>
+        <option value="cycle3">cycle3</option>
+    </select><br>
+
+    <button type="submit">Embed and Post</button>
+</form>
+{% endblock %}
